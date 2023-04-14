@@ -8,20 +8,21 @@ using namespace std;
 //-removeHead
 //-remove at index
 //-Reverse
-
-struct Node 
+template <typename T>
+struct Node
 {
-	int value; 
+	T value;
 	Node* next;
 };
 
-class LinkedList 
+template <typename T>
+class LinkedList
 {
 
 private:
-	Node* head;
-	Node* current;
-	Node* tail;
+	Node<T>* head;
+	Node<T>* current;
+	Node<T>* tail;
 	int size;
 
 public:
@@ -30,14 +31,15 @@ public:
 		head = NULL;
 		current = NULL;
 		tail = NULL;
+		this->size = 0;
 	}
-	~LinkedList() 
+	~LinkedList()
 	{
-		Node* current = this->head;
+		Node<T>* current = this->head;
 
-		while (1) 
+		while (1)
 		{
-			Node* next = current->next;
+			Node<T>* next = current->next;
 			delete current;
 			current = next;
 
@@ -48,10 +50,10 @@ public:
 
 		}
 	}
-	void addBack(int element) 
+	void addBack(T element)
 	{
-		Node* newNode = new Node{element, NULL};
-		if (head == NULL) 
+		Node<T>* newNode = new Node<T>{ element, NULL };
+		if (head == NULL)
 		{
 			this->head = newNode;
 			this->current = newNode;
@@ -60,23 +62,23 @@ public:
 		this->current = newNode;
 		this->tail->next = current;
 		this->tail = current;
-		
+
 	}
 
-	void addFront(int element) 
+	void addFront(T element)
 	{
-		Node* newNode = new Node{element, this->head};
+		Node<T>* newNode = new Node<T>{ element, this->head };
 		this->head = newNode;
 	}
 
 	void getTail()
 	{
-		if (this->tail == NULL) 
+		if (this->tail == NULL)
 		{
 			throw "Error!";
 			return;
 		}
-		cout << this->tail->value<<endl;
+		cout << this->tail->value << endl;
 	}
 	void getHead()
 	{
@@ -85,13 +87,13 @@ public:
 			throw "Error!";
 			return;
 		}
-		
+
 		cout << this->head->value << endl;
 	}
 
 	void printList()
 	{
-		Node* current = this->head;
+		Node<T>* current = this->head;
 		cout << "[ ";
 		while (1)
 		{
@@ -108,15 +110,15 @@ public:
 
 	}
 
-	int Size() 
+	int Size()
 	{
 		int n = 0;
-		Node* current = this->head;
+		Node<T>* current = this->head;
 		while (1)
 		{
 			current = current->next;
 			n++;
-			if (current == NULL) 
+			if (current == NULL)
 			{
 				break;
 			}
@@ -125,22 +127,22 @@ public:
 	}
 
 
-	void removeHead() 
+	void removeHead()
 	{
-		if (this->head == NULL) 
+		if (this->head == NULL)
 		{
 			return; //nothing to erase
 		}
 
-		Node* newHead = this->head->next;
+		Node<T>* newHead = this->head->next;
 		delete this->head;
 		this->head = newHead;
 	}
 
-	void remove(int index) 
+	void remove(int index)
 	{
-		Node* current = this->head;
-		Node* oneBefore = NULL;
+		Node<T>* current = this->head;
+		Node<T>* oneBefore = NULL;
 		while (index != 0)
 		{
 			oneBefore = current; //pointer i nyjes perpara asaj qe fshihet
@@ -151,15 +153,15 @@ public:
 
 		delete current; //dealokohet lokacioni i nyjes qe fshihet
 	}
-	
-	void Reverse() 
+
+	void Reverse()
 	{
 		int size = Size();
-		Node* tempLeft = this->head; //pointon te 0
-		Node* current = tempLeft->next;//pointon te 1
-		Node* tempRight = current->next; //pointon te 2
+		Node<T>* tempLeft = this->head; //pointon te 0
+		Node<T>* current = tempLeft->next;//pointon te 1
+		Node<T>* tempRight = current->next; //pointon te 2
 
-		while (size != 0) 
+		while (size != 0)
 		{
 			if (current != NULL)//check if tail
 			{
@@ -185,11 +187,11 @@ public:
 };
 
 
-int main() 
+int main()
 {
 
-	LinkedList lista = LinkedList();
-
+	LinkedList<int> lista;
+	LinkedList<string> lista_string;
 
 	//--------------------------------------
 	lista.addBack(5);
@@ -199,7 +201,7 @@ int main()
 	lista.printList();
 	//[5, 9, 15, 68]
 
-	cout<<"Tail: ";
+	cout << "Tail: ";
 	lista.getTail();
 	cout << "Head: ";
 	lista.getHead();
@@ -215,14 +217,14 @@ int main()
 	cout << "Head: ";
 	lista.getHead();
 
-	cout <<"Size: "<< lista.Size()<<endl<<endl;
+	cout << "Size: " << lista.Size() << endl << endl;
 
 	//--------------------------------------
 	lista.removeHead();
 	lista.printList();
 	cout << "Head: ";
 	lista.getHead();
-	cout << "Size: " << lista.Size() << endl<<endl;
+	cout << "Size: " << lista.Size() << endl << endl;
 
 	//--------------------------------------
 
@@ -232,7 +234,7 @@ int main()
 	lista.getHead();
 	cout << "Tail: ";
 	lista.getTail();
-	cout << "Size: " << lista.Size() << endl<<endl;
+	cout << "Size: " << lista.Size() << endl << endl;
 	//-------------------------------------
 	lista.addBack(13);
 	lista.addBack(19);
@@ -244,6 +246,12 @@ int main()
 	lista.Reverse();
 	lista.printList();
 	//--------------------------------------
+	lista_string.addBack("First");
+	lista_string.addBack("Second");
+	lista_string.addBack("Third");
+	cout << endl;
+	cout << "String list:" << endl;
+	lista_string.printList();
 
 	return 0;
 }
